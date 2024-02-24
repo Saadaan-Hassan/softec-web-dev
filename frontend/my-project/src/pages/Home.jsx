@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import CustomTripSection from "../components/CustomTripSection";
 import CommunityPartners from "../components/CommunityPartners";
 import Card from "../components/Card";
+import Footer from "../components/common/Footer";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <Card/>
       <Card/>
       </div>
+      <Footer/>
     </>
   );
 };
