@@ -7,12 +7,8 @@ const useSignup = () => {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [response , setResponse]=useState(null)
-  const handleSignup = async (request) => {
-    const data = await axios.post(request).then((res)=>{
-        setResponse(res)
-        console.log(res);
-    }).catch((e)=>console.log(e))
-    return data
+  const handleSignup = async () => {
+    console.log(email,password,confirm_password,first_name,last_name);
   };
 
   return {
