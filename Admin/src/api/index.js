@@ -53,6 +53,7 @@ export const postRequestWithHeader = async (url) => {
     const response = await fetch(`${staging_url}${url}`, {
       method: "POST",
       headers: {
+        "authorization": `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json"
       },
     });
@@ -67,6 +68,7 @@ export const getRequest = async (url) => {
     const updatedUrl = `${staging_url}${url}`;
     const response = await fetch(updatedUrl, {
       headers: {
+        "authorization": `Bearer ${localStorage.getItem("token")}`,
         "Content-type": "application/json"
       },
     });
@@ -120,8 +122,9 @@ export const deleteRequestWithBody = async (url, body) => {
 
 export const putRequestWithHeadersParams = async (url, params) => {
   const requestOptions = {
-    method: "PUT",
+    method: "PATCH",
     headers: {
+      "authorization": `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify(params),

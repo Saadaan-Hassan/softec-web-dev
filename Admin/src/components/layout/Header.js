@@ -3,7 +3,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { Row, Col, Affix, Dropdown, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { profile } from "../../constants/icons";
-import logo from "../../assets/images/price_logo.png";
+import logo from "../../assets/images/download.jpg";
 import { DASHBOARD, LOGIN } from "../../constants/routes";
 
 const Header = () => {

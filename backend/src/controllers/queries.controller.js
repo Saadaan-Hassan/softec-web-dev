@@ -5,7 +5,7 @@ dotenv.config();
 
 const getQueries = async (req, res) => {
     try {
-        const queries = await Query.find();
+        const queries = await Query.find({ replied: false });
         res.status(200).json(queries);
     } catch (error) {
         console.error(error);
@@ -13,6 +13,15 @@ const getQueries = async (req, res) => {
     }
 }
 
+const getAnsweredQueries = async (req, res) => {
+  try {
+      const queries = await Query.find({ replied: true });
+      res.status(200).json(queries);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+}
 const getQuery = async (req,res) => {
     const { id } = req.params;
 
@@ -71,4 +80,4 @@ const queryAns = async (req, res) => {
   }
 };
 
-export { addQuery, queryAns, getQueries, getQuery };
+export { addQuery, queryAns, getQueries, getQuery, getAnsweredQueries };

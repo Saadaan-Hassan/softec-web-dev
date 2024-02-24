@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout, Button, Spin, Form, Input, Row,notification } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import { DASHBOARD } from "../constants/routes";
-import logo from "../assets/images/price_logo.png";
+import logo from "../assets/images/download.jpg";
 import { loginRequest } from "../api/logIn";
 import { LoadingOutlined } from "@ant-design/icons";
 import Typography from "antd/es/typography/Typography";
@@ -71,14 +71,14 @@ const LogIn = () => {
     <Layout className="my-signin full-bg">
       <div className="blue-overlay"></div>
       <Content className="login-content p-5 pt-3">
-        <Row className="signin-logo d-flex justify-content-center">
+        <Row className="signin-logo d-flex justify-content-center mt-25">
           <img
             src={logo}
-            style={{ width: 200, height: 100, objectFit: "contain", backgroundColor: "#191919", borderRadius: "20px" }}
+            style={{ height: 100, objectFit: "contain", backgroundColor: "#191919", borderRadius: "20px" }}
             alt="logo"
           />
         </Row>
-        <Row className="signin-container p-5">
+        <Row className="signin-container p-30">
           <Form
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

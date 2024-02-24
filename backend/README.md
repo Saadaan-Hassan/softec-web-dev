@@ -124,6 +124,8 @@ response:
 
 Get all queries :  api/queries/
 
+Get ansquery : api/queries/AnsweredQueries
+
 GET one query : api/queries/:id
 
 Post a Question : api/queries/

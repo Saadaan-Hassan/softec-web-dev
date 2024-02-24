@@ -5,3 +5,8 @@ export const PLACES = "/places"
 export const ADDPLACE = "/places/add"
 export const EDITPLACE = "/places/:id/edit"
 // export const PLACES = "/places"
+
+export const QUERIES = "/queries"
+export const ANSQUERIES = "/AnsweredQueries"
+export const ANSWER = "/queries/:id/answer"
+

@@ -2,6 +2,8 @@ import { Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   PLACES,
+  QUERIES,
+  ANSQUERIES
 } from "../../constants/routes";
 const getItem = (label, key, children) => {
   return {
@@ -16,6 +18,8 @@ const SideNav = () => {
   const items = [
     getItem(<Link to="/dashboard">Dashboard</Link>, "dashboard"),
     getItem(<Link to={PLACES}>Places</Link>, "places"),
+    getItem(<Link to={QUERIES}>Queries</Link>, "queries"),
+    getItem(<Link to={ANSQUERIES}>AnsQueries</Link>, "answeredqueries"),
   ];
   return (
     <div className="full-hieght">

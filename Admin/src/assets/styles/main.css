@@ -152,7 +152,7 @@ body::-webkit-scrollbar {
   background-size: contain;
   width: 16%;
   margin-top: 8px;
-  margin-left: 40px;
+  margin-left: 15px;
 }
 
 .header-control {
@@ -3558,6 +3558,10 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile .btn-sig
 .pr-5,
 .px-5 {
   padding-right: 5px !important;
+}
+
+.p-30{
+  padding: 30px;
 }
 
 .p-5,

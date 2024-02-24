@@ -4,7 +4,10 @@ import {
   LOGIN,
   PLACES,
   ADDPLACE,
-  EDITPLACE
+  EDITPLACE,
+  QUERIES,
+  ANSWER,
+  ANSQUERIES
 } from "./constants/routes";
 import "antd/dist/reset.css";
 import "./assets/styles/main.css";
@@ -15,6 +18,9 @@ import Main from "./components/Main";
 import Places from "./pages/Places/Places";
 import AddPlace from "./pages/Places/AddPlace";
 import EditPlace from "./pages/Places/EditPlace";
+import Queries from "./pages/Queries/Queries";
+import Answer from "./pages/Queries/Answer";
+import AnsQueries from "./pages/Queries/AnsQueries";
 
 
 function App() {
@@ -29,6 +35,10 @@ function App() {
               <Route exact path={PLACES} element={<Places />} />
               <Route exact path={ADDPLACE} element={<AddPlace />} />
               <Route exact path={EDITPLACE} element={<EditPlace />} />
+
+              <Route exact path={QUERIES} element={<Queries />} />
+              <Route exact path={ANSWER} element={<Answer />} />
+              <Route exact path={ANSQUERIES} element={<AnsQueries />} />
             </Route>
           </Route>
         </Routes>
