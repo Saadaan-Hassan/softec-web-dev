@@ -1,7 +1,7 @@
 import React from 'react'
 import pic from '../../assets/profile.png'
 const Navbar = () => {
-    const navlinks =[{name :'Home' , url:"/home"},{name:'Community',url:"/community"},{name:"Hajj and Umrah Guidance",url:"/hajjummrah"}]
+    const navlinks =[{name :'Home' , url:"/home"},{name:'Community',url:"/community"},{name:"Hajj and Umrah Guidance",url:"/hajjummrah"},{name:"Create Post",url:"/createpost"}]
   return (
     <div className="navbar bg-white border-b-2  ">
   <div className="navbar-start">
