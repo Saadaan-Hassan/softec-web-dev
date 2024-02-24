@@ -118,3 +118,24 @@ response:
   }
   ```
 
+
+
+## Queries API Endpoints:
+
+Get all queries :  api/queries/
+
+GET one query : api/queries/:id
+
+Post a Question : api/queries/
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "subject": "Question about Product X",
+  "description": "I'm having trouble using feature Y in your product. Could you provide some guidance?"
+}
+
+Patch Answer : api/queries/:id
+{
+  "answer": "Answer"
+}
