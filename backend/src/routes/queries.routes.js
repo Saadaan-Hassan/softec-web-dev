@@ -1,5 +1,17 @@
 import express from "express";
-import { addQuery, queryAns, getQuery, getQueries, getAnsweredQueries } from "../controllers/queries.controller.js";
+import {
+	addQuery,
+	queryAns,
+	getQuery,
+	getQueries,
+	getAnsweredQueries,
+} from "../controllers/queries.controller.js";
+import {
+	addQuery,
+	queryAns,
+	getQuery,
+	getQueries,
+} from "../controllers/queries.controller.js";
 import { checkAdminAuth } from "../middleware/auth.js";
 
 const router = express.Router();

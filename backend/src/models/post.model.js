@@ -2,19 +2,18 @@ import { Schema, model } from "mongoose";
 import commentSchema from "./comment.model.js";
 
 const postSchema = new Schema({
-	postTitle: {
+	title: {
 		type: String,
 		required: true,
 	},
-	postText: {
+	content: {
 		type: String,
 		required: true,
 	},
-	post_images: [
-		{
-			type: String,
-		},
-	],
+	post_image: {
+		type: String,
+	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now,
@@ -25,12 +24,12 @@ const postSchema = new Schema({
 			ref: "Comment",
 		},
 	],
-	author: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-		immutable: true,
-	},
+	// author: {
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: "User",
+	// 	required: true,
+	// 	immutable: true,
+	// },
 });
 
 postSchema.virtual("commentCount").get(function () {

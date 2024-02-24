@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const commentSchema = new Schema({
-	commentBody: {
+	comment: {
 		type: String,
 		required: true,
 	},
-	username: {
+	name: {
 		type: String,
 		required: true,
 	},
@@ -13,14 +13,14 @@ const commentSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	author: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: true,
-			immutable: true,
-		},
-	],
+	// author: [
+	// 	{
+	// 		type: Schema.Types.ObjectId,
+	// 		ref: "User",
+	// 		required: true,
+	// 		immutable: true,
+	// 	},
+	// ],
 });
 
 const Comment = model("Comment", commentSchema);
