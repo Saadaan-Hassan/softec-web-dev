@@ -62,7 +62,7 @@ const {email,
             </div>
            
             <div>
-                <button className="btn btn-block" onClick={handleSignup}>Signup</button>
+                <button className="btn btn-block" onClick={handleSignup("")}>Signup</button>
             </div>
         </div>
         <p className='text-center my-4'>Already Have Account ? <span className='text-blue-600 cursor-pointer'>Login</span> </p>
