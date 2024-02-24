@@ -1,38 +1,37 @@
 import { Schema, model } from "mongoose";
-import commentSchema from "./Comment";
-import moment from "moment";
+import commentSchema from "./comment.model.js";
 
-const postSchema = new Schema(
-	{
-		postTitle: {
-			type: String,
-			required: true,
-		},
-		postText: {
-			type: String,
-			required: true,
-		},
-		createdAt: {
-			type: Date,
-			default: Date.now,
-			get: (timestamp) => moment(timestamp).fromNow(),
-		},
-		comments: [commentSchema],
-		author: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "User",
-				required: true,
-				immutable: true,
-			},
-		],
+const postSchema = new Schema({
+	postTitle: {
+		type: String,
+		required: true,
 	},
-	{
-		toJSON: {
-			getters: true,
+	postText: {
+		type: String,
+		required: true,
+	},
+	post_images: [
+		{
+			type: String,
 		},
-	}
-);
+	],
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
+	comments: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Comment",
+		},
+	],
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+		immutable: true,
+	},
+});
 
 postSchema.virtual("commentCount").get(function () {
 	return this.comments.length;

@@ -1,4 +1,5 @@
 import Post from "../models/post.model.js";
+import Comment from "../models/comment.model.js";
 import {
 	getStorage,
 	ref,
@@ -7,8 +8,8 @@ import {
 	deleteObject,
 } from "firebase/storage";
 
-// @desc: Get all locations
-// @route: GET /api/locations/
+// @desc: Get all posts
+// @route: GET /api/posts/
 // @access: Public
 const getAllPosts = async (req, res) => {
 	try {
@@ -22,206 +23,225 @@ const getAllPosts = async (req, res) => {
 	}
 };
 
-// @desc: Create new Location
-// @route: POST /api/locations/
+// @desc: Get single post
+// @route: GET /api/posts/:id
+// @access: Public
+const getPost = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const post = await Post.findById(id);
+		res.status(200).json({
+			message: "Post fetched successfully",
+			post,
+		});
+	} catch (error) {
+		res.status(404).json({ message: error.message });
+	}
+};
+
+// @desc: Create new Posts
+// @route: POST /api/posts/
 // @access: Private
-// const addNewLocation = async (req, res) => {
-// 	try {
-// 		const { location_name, description, latitude, longitude, city, category } =
-// 			req.body;
+const addNewPosts = async (req, res) => {
+	try {
+		const { postTitle, postText, author } = req.body;
 
-// 		const picture = req.files.picture;
-// 		const video = req.files.video;
+		const pictures = req.files;
 
-// 		// Check if pictures are more than 2MB
-// 		if (picture.size > 2 * 1024 * 1024) {
-// 			return res
-// 				.status(400)
-// 				.json({ message: "Cannot upload pictures larger than 2MB" });
-// 		}
+		// Check if pictures are provided
+		if (!pictures || pictures.length === 0) {
+			return res.status(400).json({ message: "No pictures provided" });
+		}
 
-// 		// Upload pictures to Firebase Storage
-// 		const storage = getStorage();
+		// Check if pictures are more than 2MB
+		if (pictures.some((picture) => picture.size > 2 * 1024 * 1024)) {
+			return res
+				.status(400)
+				.json({ message: "Cannot upload pictures larger than 2MB" });
+		}
 
-// 		const pictureStorageRef = ref(
-// 			storage,
-// 			`place_pictures/${Date.now()}_${picture[0].originalname}`
-// 		);
-// 		const pictureUploadTask = uploadBytesResumable(
-// 			pictureStorageRef,
-// 			picture.buffer
-// 		);
+		// Upload pictures to Firebase Storage
+		const storage = getStorage();
+		const pictureURLs = [];
 
-// 		const pictureSnapshot = await pictureUploadTask;
-// 		const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
+		for (let i = 0; i < pictures.length; i++) {
+			const picture = pictures[i];
 
-// 		const picture_url = pictureDownloadURL;
+			const pictureStorageRef = ref(
+				storage,
+				`post_images/${Date.now()}_${picture.originalname}`
+			);
+			const pictureUploadTask = uploadBytesResumable(
+				pictureStorageRef,
+				picture.buffer
+			);
 
-// 		// Upload video to Firebase Storage
-// 		const videoStorageRef = ref(
-// 			storage,
-// 			`place_videos/${Date.now()}_${video[0].originalname}`
-// 		);
-// 		const videoUploadTask = uploadBytesResumable(videoStorageRef, video.buffer);
+			const pictureSnapshot = await pictureUploadTask;
+			const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
 
-// 		const videoSnapshot = await videoUploadTask;
-// 		const videoDownloadURL = await getDownloadURL(videoSnapshot.ref);
+			pictureURLs.push(pictureDownloadURL);
+		}
 
-// 		const video_url = videoDownloadURL;
+		const newPost = new Post({
+			postTitle,
+			postText,
+			post_images: pictureURLs,
+			author,
+		});
 
-// 		const newPlace = new Place({
-// 			location_name,
-// 			description,
-// 			latitude,
-// 			longitude,
-// 			city,
-// 			category,
-// 			picture: picture_url,
-// 			video: video_url,
-// 		});
+		const savePost = await newPost.save();
 
-// 		const savedPlace = await newPlace.save();
-// 		res
-// 			.status(201)
-// 			.json({ message: "Product created successfully", product: savedPlace });
-// 	} catch (error) {
-// 		res.status(409).json({ message: error.message });
-// 	}
-// };
+		res
+			.status(201)
+			.json({ message: "Post created successfully", post: savePost });
+	} catch (error) {
+		res.status(409).json({ message: error.message });
+	}
+};
 
-// @desc: Create Update Location
-// @route: PUT /api/locations/:id
+// @desc: Update Post
+// @route: Patch /api/posts/:id
 // @access: Private
-// const updateLocation = async (req, res) => {
-// 	try {
-// 		const { id } = req.params;
-// 		const updates = req.body;
+const updatePosts = async (req, res) => {
+	try {
+		const { id } = req.params;
 
-// 		const updatedLocation = await Place.findByIdAndUpdate(id, updates, {
-// 			new: true,
-// 		});
+		const { postTitle, postText } = req.body;
 
-// 		if (!updatedLocation) {
-// 			return res.status(404).json({ message: "Place not found" });
-// 		}
+		const post = await Post.findById(id);
 
-// 		if (req.files !== null) {
-// 			if (req.files.picture) {
-// 				//Delete the old picture
-// 				const oldPicture = updatedLocation.picture;
-// 				const pictureRef = ref(getStorage(), oldPicture);
-// 				await deleteObject(pictureRef);
+		if (!post) {
+			return res.status(404).json({ message: "Post not found" });
+		}
 
-// 				const picture = req.files.picture;
-// 				// Check if pictures are more than 2MB
-// 				if (picture.size > 2 * 1024 * 1024) {
-// 					return res
-// 						.status(400)
-// 						.json({ message: "Cannot upload pictures larger than 2MB" });
-// 				}
+		const pictures = req.files;
 
-// 				// Upload pictures to Firebase Storage
-// 				const storage = getStorage();
+		// Check if pictures are provided
+		if (!pictures || pictures.length === 0) {
+			return res.status(400).json({ message: "No pictures provided" });
+		}
 
-// 				const pictureStorageRef = ref(
-// 					storage,
-// 					`place_pictures/${Date.now()}_${picture[0].originalname}`
-// 				);
-// 				const pictureUploadTask = uploadBytesResumable(
-// 					pictureStorageRef,
-// 					picture.buffer
-// 				);
+		// Check if pictures are more than 2MB
+		if (pictures.some((picture) => picture.size > 2 * 1024 * 1024)) {
+			return res
+				.status(400)
+				.json({ message: "Cannot upload pictures larger than 2MB" });
+		}
 
-// 				const pictureSnapshot = await pictureUploadTask;
-// 				const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
+		// Upload pictures to Firebase Storage
+		const storage = getStorage();
+		const pictureURLs = [];
 
-// 				const picture_url = pictureDownloadURL;
+		for (let i = 0; i < pictures.length; i++) {
+			const picture = pictures[i];
 
-// 				await Place.findByIdAndUpdate(
-// 					id,
-// 					{ picture: picture_url },
-// 					{
-// 						new: true,
-// 					}
-// 				);
+			const pictureStorageRef = ref(
+				storage,
+				`post_images/${Date.now()}_${picture.originalname}`
+			);
+			const pictureUploadTask = uploadBytesResumable(
+				pictureStorageRef,
+				picture.buffer
+			);
 
-// 				updatedLocation.picture = picture_url;
-// 			}
+			const pictureSnapshot = await pictureUploadTask;
+			const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
 
-// 			if (req.files.video) {
-// 				//Delete the old video
-// 				const oldVideo = updatedLocation.video;
-// 				const videoRef = ref(getStorage(), oldVideo);
-// 				await deleteObject(videoRef);
+			pictureURLs.push(pictureDownloadURL);
+		}
 
-// 				const video = req.files.video;
+		const updatedPost = {
+			postTitle,
+			postText,
+			post_images: pictureURLs,
+		};
 
-// 				// Upload video to Firebase Storage
-// 				const videoStorageRef = ref(
-// 					storage,
-// 					`place_videos/${Date.now()}_${video[0].originalname}`
-// 				);
-// 				const videoUploadTask = uploadBytesResumable(
-// 					videoStorageRef,
-// 					video.buffer
-// 				);
+		const updatePost = await Post.findByIdAndUpdate(id, updatedPost, {
+			new: true,
+		});
 
-// 				const videoSnapshot = await videoUploadTask;
-// 				const videoDownloadURL = await getDownloadURL(videoSnapshot.ref);
+		res.status(200).json({ message: "Post updated successfully", updatePost });
+	} catch (error) {
+		res.status(409).json({ message: error.message });
+	}
+};
 
-// 				const video_url = videoDownloadURL;
-
-// 				await Place.findByIdAndUpdate(
-// 					id,
-// 					{ video: video_url },
-// 					{
-// 						new: true,
-// 					}
-// 				);
-
-// 				updatedLocation.video = video_url;
-// 			}
-// 		}
-
-// 		res.status(201).json({
-// 			message: "Product created successfully",
-// 			place: updatedLocation,
-// 		});
-// 	} catch (error) {
-// 		res.status(409).json({ message: error.message });
-// 	}
-// };
-
-// @desc: Create Delete Location
-// @route: Delete /api/locations/:id
+// @desc: Add Comment to Post
+// @route: POST /api/posts/:id/comment/
 // @access: Private
-// const deleteLocation = async (req, res) => {
-// 	try {
-// 		const { id } = req.params;
+const addComment = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { commentBody, username, author } = req.body;
 
-// 		const place = await Place.findByIdAndDelete(id);
-// 		if (!place) {
-// 			return res.status(404).json({ message: "Place not found" });
-// 		}
+		const post = await Post.findById(id);
 
-// 		const picture = place.picture;
+		if (!post) {
+			return res.status(404).json({ message: "Post not found" });
+		}
 
-// 		const video = place.video;
+		const newComment = new Comment({
+			commentBody,
+			username,
+			author,
+		});
 
-// 		const storage = getStorage();
+		const saveComment = await newComment.save();
 
-// 		const pictureRef = ref(storage, picture);
+		post.comments.push(saveComment._id);
 
-// 		const videoRef = ref(storage, video);
+		await post.save();
 
-// 		await deleteObject(pictureRef);
+		res
+			.status(201)
+			.json({ message: "Comment added successfully", saveComment });
+	} catch (error) {
+		res.status(409).json({ message: error.message });
+	}
+};
 
-// 		await deleteObject(videoRef);
+// @desc: Delete Post
+// @route: DELETE /api/posts/:id
+// @access: Private
+const deletePost = async (req, res) => {
+	try {
+		const { id } = req.params;
 
-// 		res.status(200).json({ message: "Place deleted successfully" });
-// 	} catch (error) {
-// 		res.status(409).json({ message: error.message });
-// 	}
-// };
+		const post = await Post.findById(id);
 
-export { getAllPosts, addNewLocation, updateLocation, deleteLocation };
+		if (!post) {
+			return res.status(404).json({ message: "Post not found" });
+		}
+
+		// Delete comments from the post
+		for (let i = 0; i < post.comments.length; i++) {
+			const comment = post.comments[i];
+			await Comment.findByIdAndDelete(comment);
+		}
+
+		// Delete pictures from Firebase Storage
+		const storage = getStorage();
+
+		for (let i = 0; i < post.post_images.length; i++) {
+			const pictureURL = post.post_images[i];
+			console.log(pictureURL);
+			const pictureRef = ref(storage, pictureURL);
+			await deleteObject(pictureRef);
+		}
+
+		await Post.findByIdAndDelete(id);
+
+		res.status(200).json({ message: "Post deleted successfully" });
+	} catch (error) {
+		res.status(409).json({ message: error.message });
+	}
+};
+
+export {
+	getAllPosts,
+	getPost,
+	addNewPosts,
+	updatePosts,
+	deletePost,
+	addComment,
+};

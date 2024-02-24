@@ -1,35 +1,28 @@
-import { Schema } from "mongoose";
-import moment from "moment";
+import { Schema, model } from "mongoose";
 
-const commentSchema = new Schema(
-	{
-		commentBody: {
-			type: String,
-			required: true,
-		},
-		username: {
-			type: String,
-			required: true,
-		},
-		createdAt: {
-			type: Date,
-			default: Date.now,
-			get: (timestamp) => moment(timestamp).fromNow(),
-		},
-		author: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "User",
-				required: true,
-				immutable: true,
-			},
-		],
+const commentSchema = new Schema({
+	commentBody: {
+		type: String,
+		required: true,
 	},
-	{
-		toJSON: {
-			getters: true,
+	username: {
+		type: String,
+		required: true,
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
+	author: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+			immutable: true,
 		},
-	}
-);
+	],
+});
 
-export default commentSchema;
+const Comment = model("Comment", commentSchema);
+
+export default Comment;
