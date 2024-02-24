@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import BlogPage from './pages/BlogPage'
 import AddPost from './pages/AddPost'
 import HajjUmmrahGuide from './pages/HajjUmmrahGuide'
+import ContactUs from './pages/ContactUs'
 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
       {/* <Community/> */}
       {/* <BlogPage/> */}
       {/* <AddPost/> */}
-      <HajjUmmrahGuide/>
+      {/* <HajjUmmrahGuide/> */}
+      <ContactUs/>
     </>
   )
 }
