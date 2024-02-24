@@ -17,8 +17,10 @@ const userSchema = new Schema(
 		},
 		password: {
 			type: String,
-			required: true,
-			minlength: 5,
+			required: true
+		},
+		otp:{
+			type: Number
 		},
 		posts: [
 			{
@@ -35,8 +37,22 @@ const userSchema = new Schema(
 			type: String,
 			trim: true,
 			default:
-				"https://images.unsplash.com/photo-1620750034602-1ad42e46b86b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+				"https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=626&ext=jpg",
 		},
+		dob: {
+			type: Date,
+			required: true,
+		},
+		gender: {
+			type: String,
+			enum: ["MALE", "FEMALE", "OTHER"],
+			required: true,
+		},
+		role: {
+			type: String,
+			enum: ["USER", "ADMIN"],
+			default: "USER",
+		}
 	},
 	{
 		toJSON: {
