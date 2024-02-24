@@ -23,6 +23,7 @@ app.use(cors({ origin: ["http://localhost:5173/"] }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/places", placeRoutes);
+app.use("/api/posts", placeRoutes);
 
 app.listen(3000, () => {
 	console.log("Server is running on port 3000: http://localhost:3000");

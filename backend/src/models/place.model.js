@@ -1,14 +1,5 @@
 import { Schema, model } from "mongoose";
 
-// •	name
-// •	pictures []
-// •	videos []
-// •	desc
-// •	latitude
-// •	longitude
-// •	city
-// •	category
-
 const placeSchema = new Schema({
 	location_name: {
 		type: String,
