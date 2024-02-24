@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import Navbar from "../components/common/Navbar";
 
 const ContactUs = () => {
@@ -20,7 +21,7 @@ const ContactUs = () => {
 				messageType,
 			})
 			.then((response) => {
-				console.log(response.data);
+				toast.success(response.data.message);
 			});
 
 		// Reset form fields

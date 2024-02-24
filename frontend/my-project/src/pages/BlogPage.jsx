@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useParams } from "react-router";
 import Navbar from "../components/common/Navbar";
 import blog from "../assets/blog.jpg";
 
 const BlogPage = () => {
+	const params = useParams();
+	const [post, setPost] = useState({});
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
 	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
+		// Fetch the post from the server
+		const fetchPost = async () => {
+			const res = await axios.get(`posts/${params.id}`);
+			// Set the post state to the post from the server
+			setPost(res.data.post);
+		};
+		fetchPost();
+
 		// Fetch the comments from the server
 		const fetchComments = async () => {
-			const res = await axios.get("/posts/65da6a1442cf3a7622927da2/comment/");
-			console.log(res.data);
-
+			const res = await axios.get(`posts/${params.id}/comment/`);
 			// Set the comments state to the comments from the server
 			setComments(res.data.comments);
 		};
@@ -36,12 +46,10 @@ const BlogPage = () => {
 		setComments([...comments, newComment]);
 
 		// Send the new comment to the server
-		await axios
-			.post("/posts/65da6a1442cf3a7622927da2/comment", newComment)
-			.then((res) => {
-				//Show notification
-				console.log(res.data);
-			});
+		await axios.post(`/posts/${params.id}/comment`, newComment).then((res) => {
+			//Show notification
+			toast.success(res.data.message);
+		});
 		// Clear the input fields
 		setName("");
 		setComment("");
@@ -51,14 +59,9 @@ const BlogPage = () => {
 		<>
 			<Navbar />
 			<div className='container mx-auto p-10'>
-				<img className='w-full h-[60vh]' src={blog} alt='Blog' />
-				<p className='text-4xl font-bold text-center p-10'>Title of the Blog</p>
-				<p className='text-xl p-10'>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-					accusantium mollitia voluptates unde eum dignissimos culpa voluptatem
-					sunt nam autem nesciunt magnam tempora, deleniti officiis error beatae
-					veritatis consectetur temporibus?
-				</p>
+				<img className='w-full h-[60vh]' src={post.post_image} alt='blog' />
+				<p className='text-4xl font-bold text-center p-10'>{post.title}</p>
+				<p className='text-xl p-10'>{post.content}</p>
 			</div>
 			<div className='container lg:w-1/2 p-10'>
 				<h2 className='text-2xl font-semibold mb-4'>Comments</h2>

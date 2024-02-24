@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/common/Navbar";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddPost = () => {
 	const [title, setTitle] = useState("");
@@ -32,10 +33,10 @@ const AddPost = () => {
 		axios
 			.post("/posts", formData)
 			.then((res) => {
-				console.log(res.data);
+				toast.success(res.data.message);
 			})
 			.catch((err) => {
-				console.error(err);
+				toast.error(err.response.data.message);
 			});
 
 		// Reset form fields
