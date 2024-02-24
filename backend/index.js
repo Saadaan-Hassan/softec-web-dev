@@ -20,8 +20,10 @@ app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: ["http://localhost:5173/"] }));
-
+app.use(cors({ 
+	origin: ["http://localhost:3001", "http://localhost:5173"]
+  }));
+  
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/places", placeRoutes);
