@@ -61,8 +61,6 @@ const addNewPosts = async (req, res) => {
 		}
 		// Upload pictures to Firebase Storage
 		const storage = getStorage();
-		const pictureURLs = [];
-
 		const pictureStorageRef = ref(
 			storage,
 			`post_images/${Date.now()}_${picture.originalname}`
@@ -75,12 +73,10 @@ const addNewPosts = async (req, res) => {
 		const pictureSnapshot = await pictureUploadTask;
 		const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
 
-		pictureURLs.push(pictureDownloadURL);
-
 		const newPost = new Post({
 			title,
 			content,
-			post_images: pictureURLs,
+			post_image: pictureDownloadURL,
 		});
 
 		const savePost = await newPost.save();
