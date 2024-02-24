@@ -6,6 +6,7 @@ import {
 	getPost,
 	addComment,
 	deletePost,
+	getComments,
 } from "../controllers/posts.controller.js";
 
 const router = express.Router();
@@ -17,8 +18,9 @@ const upload = multer({
 
 router.get("/", getAllPosts);
 router.get("/:id", getPost);
-router.post("/", upload.array("post_images"), addNewPosts);
+router.post("/", upload.single("file"), addNewPosts);
 router.post("/:id/comment/", addComment);
+router.get("/:id/comment/", getComments);
 router.delete("/:id", deletePost);
 
 export default router;
