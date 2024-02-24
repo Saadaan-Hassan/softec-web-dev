@@ -17,10 +17,10 @@ const App = () => {
 	return (
 		<>
 			{/* <Community/> */}
-			{/* <BlogPage/> */}
-			{/* <AddPost/> */}
+			<BlogPage />
+			{/* <AddPost /> */}
 			{/* <HajjUmmrahGuide/> */}
-			<ContactUs />
+			{/* <ContactUs /> */}
 		</>
 	);
 };

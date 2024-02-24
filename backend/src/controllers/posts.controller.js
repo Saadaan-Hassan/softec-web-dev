@@ -44,49 +44,43 @@ const getPost = async (req, res) => {
 // @access: Private
 const addNewPosts = async (req, res) => {
 	try {
-		const { postTitle, postText, author } = req.body;
+		const { title, content } = req.body;
 
-		const pictures = req.files;
+		const picture = req.file;
 
 		// Check if pictures are provided
-		if (!pictures || pictures.length === 0) {
+		if (!picture) {
 			return res.status(400).json({ message: "No pictures provided" });
 		}
 
-		// Check if pictures are more than 2MB
-		if (pictures.some((picture) => picture.size > 2 * 1024 * 1024)) {
+		// Check if picture are more than 2MB
+		if (picture.size > 2 * 1024 * 1024) {
 			return res
 				.status(400)
 				.json({ message: "Cannot upload pictures larger than 2MB" });
 		}
-
 		// Upload pictures to Firebase Storage
 		const storage = getStorage();
 		const pictureURLs = [];
 
-		for (let i = 0; i < pictures.length; i++) {
-			const picture = pictures[i];
+		const pictureStorageRef = ref(
+			storage,
+			`post_images/${Date.now()}_${picture.originalname}`
+		);
+		const pictureUploadTask = uploadBytesResumable(
+			pictureStorageRef,
+			picture.buffer
+		);
 
-			const pictureStorageRef = ref(
-				storage,
-				`post_images/${Date.now()}_${picture.originalname}`
-			);
-			const pictureUploadTask = uploadBytesResumable(
-				pictureStorageRef,
-				picture.buffer
-			);
+		const pictureSnapshot = await pictureUploadTask;
+		const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
 
-			const pictureSnapshot = await pictureUploadTask;
-			const pictureDownloadURL = await getDownloadURL(pictureSnapshot.ref);
-
-			pictureURLs.push(pictureDownloadURL);
-		}
+		pictureURLs.push(pictureDownloadURL);
 
 		const newPost = new Post({
-			postTitle,
-			postText,
+			title,
+			content,
 			post_images: pictureURLs,
-			author,
 		});
 
 		const savePost = await newPost.save();
@@ -106,7 +100,7 @@ const updatePosts = async (req, res) => {
 	try {
 		const { id } = req.params;
 
-		const { postTitle, postText } = req.body;
+		const { title, content } = req.body;
 
 		const post = await Post.findById(id);
 
@@ -151,8 +145,8 @@ const updatePosts = async (req, res) => {
 		}
 
 		const updatedPost = {
-			postTitle,
-			postText,
+			title,
+			content,
 			post_images: pictureURLs,
 		};
 
@@ -172,7 +166,7 @@ const updatePosts = async (req, res) => {
 const addComment = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { commentBody, username, author } = req.body;
+		const { comment, name } = req.body;
 
 		const post = await Post.findById(id);
 
@@ -181,9 +175,8 @@ const addComment = async (req, res) => {
 		}
 
 		const newComment = new Comment({
-			commentBody,
-			username,
-			author,
+			comment,
+			name,
 		});
 
 		const saveComment = await newComment.save();
@@ -195,6 +188,28 @@ const addComment = async (req, res) => {
 		res
 			.status(201)
 			.json({ message: "Comment added successfully", saveComment });
+	} catch (error) {
+		res.status(409).json({ message: error.message });
+	}
+};
+
+// @desc: Get comments from Post
+// @route: GET /api/posts/:id/comment/
+// @access: Private
+const getComments = async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const post = await Post.findById(id).populate("comments");
+
+		if (!post) {
+			return res.status(404).json({ message: "Post not found" });
+		}
+
+		res.status(200).json({
+			message: "Comments fetched successfully",
+			comments: post.comments,
+		});
 	} catch (error) {
 		res.status(409).json({ message: error.message });
 	}
@@ -244,4 +259,5 @@ export {
 	updatePosts,
 	deletePost,
 	addComment,
+	getComments,
 };
