@@ -20,6 +20,9 @@ const userSchema = new Schema(
 			required: true,
 			minlength: 5,
 		},
+		otp:{
+			type: Number
+		},
 		posts: [
 			{
 				type: Schema.Types.ObjectId,
@@ -37,6 +40,20 @@ const userSchema = new Schema(
 			default:
 				"https://images.unsplash.com/photo-1620750034602-1ad42e46b86b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
 		},
+		dob: {
+			type: Date,
+			required: true,
+		},
+		gender: {
+			type: String,
+			enum: ["MALE", "FEMALE", "OTHER"],
+			required: true,
+		},
+		role: {
+			type: String,
+			enum: ["USER", "ADMIN"],
+			default: "USER",
+		}
 	},
 	{
 		toJSON: {
