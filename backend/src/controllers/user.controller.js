@@ -40,11 +40,12 @@ const createUser = async (req, res) => {
 	if (existingUsername) {
 		return res.status(400).json({ message: "User already exists" });
 	}
-	const hashPassword = await bcrypt.hash(user.password, 10);
+	console.log(user.password);
+	// const hashPassword = await bcrypt.hash(user.password, 10);
 
 	const newUser = new User({
 		...user,
-		password: hashPassword,
+		password: user.password,
 	});
 	try {
 		await newUser.save();
@@ -79,11 +80,12 @@ const loginUser = async (req, res) => {
 		if (!existingUser) {
 			return res.status(404).json({ message: "User doesn't exist" });
 		}
-
 		const isPasswordCorrect = await bcrypt.compare(
 			password,
 			existingUser.password
 		);
+		
+		console.log(isPasswordCorrect);
 		if (!isPasswordCorrect) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
