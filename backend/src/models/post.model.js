@@ -10,11 +10,10 @@ const postSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	post_images: [
-		{
-			type: String,
-		},
-	],
+	post_image: {
+		type: String,
+	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now,
