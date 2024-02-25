@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/common/Navbar";
 import axios from "axios";
 import { toast } from "react-toastify";
+import UserContext from "../context/user/UserContext";
+import { useNavigate } from "react-router";
+
+
 
 const AddPost = () => {
+	const navigation = useNavigate()
+	const {user} =useContext(UserContext)
+useEffect(()=>{
+	if (!user) {
+		navigation('/login')
+	}
+},[user])
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [file, setFile] = useState(null);
