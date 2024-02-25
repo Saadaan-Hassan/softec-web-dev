@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import pic from "../../assets/profile.png";
+import UserContext from "../../context/user/UserContext";
 const Navbar = () => {
+	const { user } = useContext(UserContext);
 	const navlinks = [
 		{ name: "Home", url: "/" },
 		{ name: "Community", url: "/community" },
@@ -73,10 +75,18 @@ const Navbar = () => {
 						tabIndex={0}
 						className='menu dropdown-content w-52 shadow bg-base-100 rounded-box'>
 						<li>
-							<Link to='/profile'>Profile</Link>
+							{user ? (
+								<Link to='/profile'>Profile </Link>
+							) : (
+								<Link to='/login'>Login</Link>
+							)}
 						</li>
 						<li>
-							<Link to='/login'>Logout</Link>
+							{user ? (
+								<Link to='/logout'>Logout</Link>
+							) : (
+								<Link to='/signup'>Signup </Link>
+							)}
 						</li>
 					</ul>
 				</div>
