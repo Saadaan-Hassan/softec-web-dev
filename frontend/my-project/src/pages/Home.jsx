@@ -28,7 +28,7 @@ const Home = () => {
 			<h1 className='font-bold text-3xl text-center py-6'>
 				Our Community Posts
 			</h1>
-			<div className='px-10 flex gap-5'>
+			<div className='mx-32 flex gap-5 flex-wrap'>
 				{/* Show only 6 blogs */}
 				{posts.slice(0, 6).map((post) => (
 					<Link key={post._id} to={`/community/posts/${post._id}`}>

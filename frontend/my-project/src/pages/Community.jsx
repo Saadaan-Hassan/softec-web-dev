@@ -29,7 +29,7 @@ const Community = () => {
 					onSelect={(value) => console.log(value)}
 				/>
 
-				<div className='my-10 flex flex-wrap gap-10'>
+				<div className='mx-10 my-10 flex flex-wrap gap-10'>
 					{posts.map((post) => (
 						<Link key={post._id} to={`/community/post/${post._id}`}>
 							<Card post={post} />

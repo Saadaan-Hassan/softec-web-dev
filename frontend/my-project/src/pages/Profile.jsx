@@ -5,7 +5,7 @@ import Navbar from "../components/common/Navbar";
 import UserContext from "../context/user/UserContext";
 
 const Profile = () => {
-const {setUser , user } =useContext(UserContext)
+	const { setUser, user } = useContext(UserContext);
 
 	return (
 		<>
@@ -17,7 +17,12 @@ const {setUser , user } =useContext(UserContext)
 							<h3 className='text-lg leading-6 font-medium text-gray-900'>
 								Profile
 							</h3>
-							<img height={100} width={100} className="rounded-lg" src={user.avatar} />
+							<img
+								height={100}
+								width={100}
+								className='rounded-lg'
+								src={user?.avatar}
+							/>
 						</div>
 						<p className='mt-1 max-w-2xl text-sm text-gray-500'>
 							Details and informations about user.
@@ -28,13 +33,13 @@ const {setUser , user } =useContext(UserContext)
 							<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
 								<dt className='text-sm font-medium text-gray-500'>Full name</dt>
 								<dd className='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-									{user.username}
+									{user?.username}
 								</dd>
 							</div>
 							<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
 								<dt className='text-sm font-medium text-gray-500'>Gender</dt>
 								<dd className='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-									{user.gender}
+									{user?.gender}
 								</dd>
 							</div>
 							<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
@@ -42,7 +47,7 @@ const {setUser , user } =useContext(UserContext)
 									Email address
 								</dt>
 								<dd className='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-									{user.email}
+									{user?.email}
 								</dd>
 							</div>
 							<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
@@ -50,15 +55,13 @@ const {setUser , user } =useContext(UserContext)
 									Description
 								</dt>
 								<dd className='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-									<p>
-										{user.description || "Not Added"}
-									</p>
+									<p>{user?.description || "Not Added"}</p>
 								</dd>
 							</div>
 							<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
 								<dt className='text-sm font-medium text-gray-500'>Location</dt>
 								<dd className='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-									{user.location}
+									{user?.location}
 								</dd>
 							</div>
 						</dl>

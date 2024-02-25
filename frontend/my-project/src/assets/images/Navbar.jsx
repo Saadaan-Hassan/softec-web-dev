@@ -40,11 +40,11 @@ const Navbar = () => {
 						<a className='btn btn-neutral'>Contact Us</a>
 					</ul>
 				</div>
-				<Link to={"/"} className='ms-3.5'>
+				<Link to={"/"} className='btn btn-ghost text-xl'>
 					<img
 						src='../logo.jpg'
 						alt='logo'
-						style={{ width: "50px", height: "50px" }}
+						style={{ width: "100px", height: "100px" }}
 					/>
 				</Link>
 			</div>
