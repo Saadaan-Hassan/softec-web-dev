@@ -33,6 +33,7 @@ const userSchema = new Schema(
 		},
 		location: String,
 		description: String,
+		
 		avatar: {
 			type: String,
 			trim: true,
@@ -41,7 +42,7 @@ const userSchema = new Schema(
 		},
 		dob: {
 			type: Date,
-			required: true,
+			
 		},
 		gender: {
 			type: String,

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect ,useContext} from 'react'
 import useLogin from '../hooks/useLogin'
 
-
 const Login = () => {
-
-    const {handleLogin,email,setEmail,setPassword,password} =useLogin()
+    
+    const {handleLogin,email,setEmail,setPassword,password,response,status} =useLogin()
+    
     return (
     <div className="relative flex flex-col items-center justify-center h-screen overflow-hidden">
     <div className="w-full p-6 bg-white border-t-4 border-gray-600 rounded-md shadow-md border-top lg:max-w-lg">

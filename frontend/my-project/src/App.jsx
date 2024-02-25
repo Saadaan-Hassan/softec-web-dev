@@ -34,6 +34,7 @@ import EditPlace from "./pages/admin/Places/EditPlace";
 import Queries from "./pages/admin/Queries/Queries";
 import Answer from "./pages/admin/Queries/Answer";
 import AnsQueries from "./pages/admin/Queries/AnsQueries";
+import UserContextProvider from "./context/user/UserContextProvider.jsx";
 
 axios.defaults.baseURL = "http://localhost:3000/api";
 axios.defaults.withCredentials = true;
@@ -42,6 +43,8 @@ const App = () => {
 	return (
 		<>
 			<Router>
+			<UserContextProvider>
+
 				<ToastContainer />
 				<Routes>
 					<Route path='/' element={<Home />} />
@@ -67,6 +70,7 @@ const App = () => {
 						</Route>
 					</Route>
 				</Routes>
+			</UserContextProvider>
 			</Router>
 		</>
 	);
