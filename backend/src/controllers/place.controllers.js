@@ -45,7 +45,7 @@ const addNewLocation = async (req, res) => {
 
 		const pictureStorageRef = ref(
 			storage,
-			`place_pictures/${Date.now()}_${picture[0].originalname}`
+			`place_pictures/${Date.now()}_${picture.originalname}`
 		);
 		const pictureUploadTask = uploadBytesResumable(
 			pictureStorageRef,
@@ -139,7 +139,7 @@ const updateLocation = async (req, res) => {
 
 				await Place.findByIdAndUpdate(
 					id,
-					{ picture: picture_url },
+					{ picture: pictureDownloadURL },
 					{
 						new: true,
 					}

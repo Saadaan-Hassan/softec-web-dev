@@ -124,7 +124,7 @@ function Places() {
 						content={
 							<div className='text-center'>
 								<Link
-									to={`/Places/${place_item._id}/edit`}
+									to={`/admin/dashboard/places/${place_item._id}/edit`}
 									state={{
 										location_name: place_item.location_name,
 										latitude: place_item.latitude,

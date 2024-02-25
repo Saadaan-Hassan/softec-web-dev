@@ -42,15 +42,9 @@ function Queries() {
 
 	const columns = [
 		{
-			title: "First Name",
-			dataIndex: "firstName",
-			key: "firstName",
-			align: "center",
-		},
-		{
-			title: "Last Name",
-			dataIndex: "lastName",
-			key: "lastName",
+			title: "Name",
+			dataIndex: "name",
+			key: "name",
 			align: "center",
 		},
 		{
@@ -59,14 +53,14 @@ function Queries() {
 			key: "email",
 		},
 		{
-			title: "Subject",
-			dataIndex: "subject",
-			key: "subject",
+			title: "Message",
+			dataIndex: "message",
+			key: "message",
 		},
 		{
-			title: "Description",
-			dataIndex: "description",
-			key: "description",
+			title: "Message Type",
+			dataIndex: "messageType",
+			key: "messageType",
 		},
 		{
 			title: "Answer",

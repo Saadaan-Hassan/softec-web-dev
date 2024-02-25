@@ -42,15 +42,9 @@ function Queries() {
 
 	const columns = [
 		{
-			title: "First Name",
-			dataIndex: "firstName",
-			key: "firstName",
-			align: "center",
-		},
-		{
-			title: "Last Name",
-			dataIndex: "lastName",
-			key: "lastName",
+			title: "Name",
+			dataIndex: "name",
+			key: "name",
 			align: "center",
 		},
 		{
@@ -59,14 +53,14 @@ function Queries() {
 			key: "email",
 		},
 		{
-			title: "Subject",
-			dataIndex: "subject",
-			key: "subject",
+			title: "Message",
+			dataIndex: "message",
+			key: "message",
 		},
 		{
-			title: "Description",
-			dataIndex: "description",
-			key: "description",
+			title: "Message Type",
+			dataIndex: "messageType",
+			key: "messageType",
 		},
 		{
 			title: "Actions",
@@ -81,14 +75,13 @@ function Queries() {
 						content={
 							<div className='text-center'>
 								<Link
-									to={`/queries/${place_item._id}/answer`}
+									to={`/admin/dashboard/queries/${place_item._id}/answer`}
 									state={{
 										id: place_item._id,
-										firstName: place_item.firstName, // Added from new dataset
-										lastName: place_item.lastName, // Added from new dataset
-										email: place_item.email, // Added from new dataset
-										subject: place_item.subject, // Added from new dataset
-										description: place_item.description, // Added from new dataset
+										name: place_item.name,
+										email: place_item.email,
+										message: place_item.message,
+										messageType: place_item.messageType,
 									}}>
 									<Button className='btn-popover'>
 										<Typography>Answer</Typography>
