@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoadingOutlined, UploadOutlined } from "@ant-design/icons";
 import { addPlaces } from "../../../api/Place";
 import { PLACES } from "../../../constants/routes.js";
+import axios from "axios";
 
 const AddPlace = () => {
 	const navigate = useNavigate();
@@ -29,9 +30,20 @@ const AddPlace = () => {
 
 	const createPlace = async () => {
 		try {
-			const listenerStatus = await addPlaces({ ...placeData });
+			// Create form data
+			const formData = new FormData();
+			formData.append("location_name", placeData.location_name);
+			formData.append("description", placeData.description);
+			formData.append("latitude", placeData.latitude);
+			formData.append("longitude", placeData.longitude);
+			formData.append("city", placeData.city);
+			formData.append("category", placeData.category);
+			formData.append("picture", placeData.picture);
+			formData.append("video", placeData.video);
+
+			const listenerStatus = await axios.post("/places", formData);
 			console.log(listenerStatus);
-			if (listenerStatus.product) {
+			if (listenerStatus.data.product) {
 				notification.open({
 					description: "Place added successfully!",
 					className: "success-notification",
@@ -39,12 +51,15 @@ const AddPlace = () => {
 				navigate(PLACES);
 			} else {
 				notification.open({
-					description: `Error: ${listenerStatus.message}!`,
+					description: `Error: ${listenerStatus.data.message}!`,
 					className: "error-notification",
 				});
 			}
 		} catch (error) {
-			console.log(error);
+			notification.open({
+				description: "Error: Something went wrong!",
+				className: "error-notification",
+			});
 		}
 	};
 
@@ -63,7 +78,7 @@ const AddPlace = () => {
 								<Form.Item
 									label='Location Name'
 									className='modal-form-item bold'
-									name='locationName'
+									name='location_name'
 									rules={[
 										{
 											required: true,
@@ -72,7 +87,7 @@ const AddPlace = () => {
 									]}>
 									<Input
 										className='email-holder'
-										name='locationName'
+										name='location_name'
 										type='text'
 										onChange={(e) =>
 											setPlaceData({
@@ -195,12 +210,13 @@ const AddPlace = () => {
 										className='email-holder'
 										name='picture'
 										type='file'
-										onChange={(e) =>
+										onChange={(e) => {
+											console.log(e.target.files[0]);
 											setPlaceData({
 												...placeData,
 												picture: e.target.files[0],
-											})
-										}
+											});
+										}}
 									/>
 								</Form.Item>
 							</Row>
@@ -227,14 +243,12 @@ const AddPlace = () => {
 					<Row className='mt-10'>
 						<Form.Item gap={10}>
 							<Link to={PLACES}>
-								<Button type='default' className='mr-10'>
-									Cancel
-								</Button>
+								<Button className='mr-10 btn btn-danger w-100'>Cancel</Button>
 							</Link>
 							<Button
-								type='primary'
 								htmlType='submit'
 								loading={isLoading}
+								className='btn btn-success w-100'
 								icon={isLoading ? <LoadingOutlined /> : null}>
 								Submit
 							</Button>

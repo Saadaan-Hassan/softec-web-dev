@@ -36,7 +36,10 @@ const Answer = () => {
 				});
 			}
 		} catch (error) {
-			console.log(error);
+			notification.open({
+				description: "Error: Something went wrong!",
+				className: "error-notification",
+			});
 		}
 	};
 
@@ -53,27 +56,13 @@ const Answer = () => {
 						<Col span={12}>
 							<Row className='w-700'>
 								<Form.Item
-									label='First Name'
+									label='Name'
 									className='modal-form-item bold'
-									name='firstName'
-									initialValue={state.firstName}>
+									name='name'
+									initialValue={state.name}>
 									<Input
 										className='email-holder'
-										name='firstName'
-										type='text'
-										disabled
-									/>
-								</Form.Item>
-							</Row>
-							<Row className='w-700'>
-								<Form.Item
-									label='Last Name'
-									className='modal-form-item bold'
-									name='lastName'
-									initialValue={state.lastName}>
-									<Input
-										className='email-holder'
-										name='lastName'
+										name='name'
 										type='text'
 										disabled
 									/>
@@ -95,13 +84,13 @@ const Answer = () => {
 							</Row>
 							<Row className='w-700'>
 								<Form.Item
-									label='Subject'
+									label='Message'
 									className='modal-form-item bold'
-									name='subject'
-									initialValue={state.subject}>
+									name='message'
+									initialValue={state.message}>
 									<Input
 										className='email-holder'
-										name='subject'
+										name='message'
 										type='text'
 										disabled
 									/>
@@ -111,13 +100,13 @@ const Answer = () => {
 						<Col span={12}>
 							<Row className='w-700'>
 								<Form.Item
-									label='Description'
+									label='Message Type'
 									className='modal-form-item bold'
-									name='description'
-									initialValue={state.description}>
+									name='messageType'
+									initialValue={state.messageType}>
 									<Input.TextArea
 										className='email-holder'
-										name='description'
+										name='messageType'
 										disabled
 									/>
 								</Form.Item>
@@ -139,13 +128,12 @@ const Answer = () => {
 					<Row className='mt-10'>
 						<Form.Item gap={10}>
 							<Link to={QUERIES}>
-								<Button type='default' className='mr-10'>
-									Cancel
-								</Button>
+								<Button className='mr-10 btn btn-danger w-100'>Cancel</Button>
 							</Link>
 							<Button
-								type='primary'
+								// type='primary'
 								htmlType='submit'
+								className='btn btn-success w-100 text-white bold hover:shadow-lg'
 								loading={isLoading}
 								icon={isLoading ? <LoadingOutlined /> : null}>
 								Submit
