@@ -2,7 +2,17 @@ import Query from "../models/queries.model.js";
 
 const getQueries = async (req, res) => {
 	try {
-		const queries = await Query.find();
+		const queries = await Query.find({ replied: false });
+		res.status(200).json(queries);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};
+
+const getAnsweredQueries = async (req, res) => {
+	try {
+		const queries = await Query.find({ replied: true });
 		res.status(200).json(queries);
 	} catch (error) {
 		console.error(error);
@@ -67,4 +77,4 @@ const queryAns = async (req, res) => {
 	}
 };
 
-export { addQuery, queryAns, getQueries, getQuery };
+export { addQuery, queryAns, getQueries, getQuery, getAnsweredQueries };
